@@ -10,13 +10,7 @@ class Product():
 
 
 class ListProduct():
-    products = [
-        {
-            "id": 1,
-            "name": "Bakwan",
-            "price": 1000
-        }
-    ]
+    products = []
 
     def get_products(self):
         list_product_schema = ListProductSchema(products=self.products)
@@ -32,6 +26,13 @@ class ListProduct():
             if prd['id'] == int(prod_id):
                 self.products[index] = product
                 return "Data was updated"
+        return "Product not found"
+    
+    def delete_product(self, id: str):
+        for index, product in enumerate(self.products):
+            if product['id'] == int(id):
+                del self.products[index]
+                return "Data was deleted"
         return "Product not found"
     
 
