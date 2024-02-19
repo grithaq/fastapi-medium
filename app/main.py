@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from routers import product
+from routers import product, user
 
 app = FastAPI(
     title="Grithaq Product API",
@@ -9,4 +9,5 @@ app = FastAPI(
 
 router = APIRouter()
 
-app.include_router(product.router, prefix="/api/v1/products")
+app.include_router(product.router, prefix="/api/v1")
+app.include_router(user.router, prefix="/api/v1")
