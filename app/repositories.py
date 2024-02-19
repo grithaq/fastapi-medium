@@ -37,10 +37,7 @@ class ListProduct():
     
 
 class ListUsers():
-    users = [
-        {"id": 1, "name": "grithaq", "email": "grithaq@mail.com"},
-        {"id": 2, "name": "Ubi Cilembu", "email": "ubi@mail.com"}
-    ]
+    users = []
 
     def get_users(self):
         user_schema_serializer = ListUserSchema(users=self.users)
@@ -55,6 +52,13 @@ class ListUsers():
         for index, usr in enumerate(self.users):
             if usr['id'] == int(id):
                 self.users[index] = user
+                return self.get_users()
+        return "User not found"
+    
+    def delete_user(self, id: str):
+        for index, user in enumerate(self.users):
+            if user['id'] == int(id):
+                del self.users[index]
                 return self.get_users()
         return "User not found"
     
