@@ -38,7 +38,8 @@ class ListProduct():
 
 class ListUsers():
     users = [
-        {"id": 1, "name": "grithaq", "email": "grithaq@mail.com"}
+        {"id": 1, "name": "grithaq", "email": "grithaq@mail.com"},
+        {"id": 2, "name": "Ubi Cilembu", "email": "ubi@mail.com"}
     ]
 
     def get_users(self):
@@ -48,7 +49,15 @@ class ListUsers():
     def add_user(self, user: UserSchema):
         self.users.append(user.model_dump(exclude_unset=True))
         return self.get_users()
-
+    
+    def update_user(self, id: str, user: UserSchema):
+        user = user.model_dump(exclude_unset=True)
+        for index, usr in enumerate(self.users):
+            if usr['id'] == int(id):
+                self.users[index] = user
+                return self.get_users()
+        return "User not found"
+    
 
 db_products = ListProduct()
 db_users = ListUsers()
