@@ -1,4 +1,4 @@
-from schema import ListProduct as ListProductSchema, ListUserSchema
+from schema import ListProduct as ListProductSchema, ListUserSchema, UserSchema
 
 
 class Product():
@@ -44,6 +44,10 @@ class ListUsers():
     def get_users(self):
         user_schema_serializer = ListUserSchema(users=self.users)
         return user_schema_serializer.model_dump(mode='json')
+    
+    def add_user(self, user: UserSchema):
+        self.users.append(user.model_dump(exclude_unset=True))
+        return self.get_users()
 
 
 db_products = ListProduct()
