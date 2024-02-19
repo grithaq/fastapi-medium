@@ -1,4 +1,4 @@
-from schema import ListProduct as ListProductSchema, Product as ProductSchema
+from schema import ListProduct as ListProductSchema
 
 
 class Product():
@@ -10,7 +10,13 @@ class Product():
 
 
 class ListProduct():
-    products = []
+    products = [
+        {
+            "id": 1,
+            "name": "Bakwan",
+            "price": 1000
+        }
+    ]
 
     def get_products(self):
         list_product_schema = ListProductSchema(products=self.products)
@@ -19,6 +25,14 @@ class ListProduct():
     def add_product(self, product: Product):
         self.products.append(product.model_dump(exclude_unset=True))
         return self.get_products()
+    
+    def update_product(self, prod_id: str, product: Product):
+        product = product.model_dump(exclude_unset=True)
+        for index, prd in enumerate(self.products):
+            if prd['id'] == int(prod_id):
+                self.products[index] = product
+                return "Data was updated"
+        return "Product not found"
     
 
 db_products = ListProduct()
