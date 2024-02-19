@@ -10,3 +10,13 @@ class Product(BaseModel):
 
 class ListProduct(BaseModel):
     products: List[Product] = Field(description="The list of products")
+
+
+class UserSchema(BaseModel):
+    id: int
+    name: str
+    email: str
+
+
+class ListUserSchema(BaseModel):
+    users: List[UserSchema]

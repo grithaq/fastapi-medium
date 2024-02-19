@@ -1,4 +1,4 @@
-from schema import ListProduct as ListProductSchema
+from schema import ListProduct as ListProductSchema, ListUserSchema
 
 
 class Product():
@@ -36,4 +36,15 @@ class ListProduct():
         return "Product not found"
     
 
+class ListUsers():
+    users = [
+        {"id": 1, "name": "grithaq", "email": "grithaq@mail.com"}
+    ]
+
+    def get_users(self):
+        user_schema_serializer = ListUserSchema(users=self.users)
+        return user_schema_serializer.model_dump(mode='json')
+
+
 db_products = ListProduct()
+db_users = ListUsers()
