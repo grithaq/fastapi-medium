@@ -18,3 +18,7 @@ def create_product(product: Product):
 @router.put('/product/{id}')
 def update_product(prod_id: str, product: Product):
     return db_on_mem.db_products.update_product(prod_id, product)
+
+@router.delete('product/{id}')
+def delete_product(prod_id: str):
+    return db_on_mem.db_products.delete_product(prod_id)
