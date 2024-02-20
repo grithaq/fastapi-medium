@@ -20,3 +20,12 @@ class UserSchema(BaseModel):
 
 class ListUserSchema(BaseModel):
     users: List[UserSchema]
+
+
+class CategorySchema(BaseModel):
+    id: int
+    name: str
+
+
+class ListCategorySchema(BaseModel):
+    categories: List[CategorySchema]
