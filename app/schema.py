@@ -20,3 +20,14 @@ class UserSchema(BaseModel):
 
 class ListUserSchema(BaseModel):
     users: List[UserSchema]
+
+
+class CategorySchema(BaseModel):
+    id: int
+    name: str
+
+
+class TodoSchema(BaseModel):
+    user: UserSchema
+    category: CategorySchema
+    todo: str

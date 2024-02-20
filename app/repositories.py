@@ -63,5 +63,15 @@ class ListUsers():
         return "User not found"
     
 
+class ListCategory():
+    categories = [
+        {'id': 1, "name": 'Rempah'},
+        {'id': 1, "name": 'Buah'}
+    ]
+
+    def get_all_categories(self):
+        pass
+
+
 db_products = ListProduct()
 db_users = ListUsers()
