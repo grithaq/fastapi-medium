@@ -68,10 +68,7 @@ class ListUsers():
     
 
 class ListCategory():
-    categories = [
-        {'id': 1, "name": 'Rempah'},
-        {'id': 2, "name": 'Buah'}
-    ]
+    categories = []
 
     def get_all_categories(self):
         category_deserializer = ListCategorySchema(categories=self.categories)
