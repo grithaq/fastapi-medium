@@ -1,4 +1,4 @@
-from schema import ListProduct as ListProductSchema, ListUserSchema, UserSchema
+from schema import ListProduct as ListProductSchema, ListUserSchema, UserSchema, ListCategorySchema
 
 
 class Product():
@@ -66,12 +66,14 @@ class ListUsers():
 class ListCategory():
     categories = [
         {'id': 1, "name": 'Rempah'},
-        {'id': 1, "name": 'Buah'}
+        {'id': 2, "name": 'Buah'}
     ]
 
     def get_all_categories(self):
-        pass
+        category_deserializer = ListCategorySchema(categories=self.categories)
+        return category_deserializer.model_dump(mode='json')
 
 
 db_products = ListProduct()
 db_users = ListUsers()
+db_categories = ListCategory()

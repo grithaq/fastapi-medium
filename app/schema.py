@@ -27,7 +27,5 @@ class CategorySchema(BaseModel):
     name: str
 
 
-class TodoSchema(BaseModel):
-    user: UserSchema
-    category: CategorySchema
-    todo: str
+class ListCategorySchema(BaseModel):
+    categories: List[CategorySchema]

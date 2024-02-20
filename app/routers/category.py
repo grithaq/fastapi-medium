@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from schema import TodoSchema
+import repositories
 
 router = APIRouter()
 
 
-@router.get("/category")
-def get_all_category(todo: TodoSchema):
-    return todo
+@router.get("/category", tags=['Categories'])
+def get_all_category():
+    return repositories.db_categories.get_all_categories()
