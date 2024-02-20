@@ -19,3 +19,7 @@ def add_new_category(category: CategorySchema):
 def update_category(id: str, category: CategorySchema):
     return repositories.db_categories.update_category(id, category)
 
+
+@router.delete("/category/{id}", tags=['Categories'])
+def delete_category(id: str):
+    return repositories.db_categories.delete_category(id)
