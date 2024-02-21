@@ -1,10 +1,13 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, TypeVar
+
+T = TypeVar('T')
 
 
 class ResponseModel(BaseModel):
     message: str
     status: str
+    data: List[T]
 
 
 class Product(BaseModel):
@@ -13,8 +16,8 @@ class Product(BaseModel):
     price: float = Field(description="The price of the product",)
 
 
-class ListProduct(BaseModel):
-    products: List[Product] = Field(description="The list of products")
+class ListProduct(ResponseModel):
+    data: List[Product] = Field(description="The list of products")
 
 
 class UserSchema(BaseModel):
@@ -33,4 +36,4 @@ class CategorySchema(BaseModel):
 
 
 class ListCategoryResponse(ResponseModel):
-    categories: List[CategorySchema]
+    data: List[CategorySchema]

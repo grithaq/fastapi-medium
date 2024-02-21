@@ -2,8 +2,8 @@ from fastapi import FastAPI, APIRouter
 from api import product, user, category
 
 app = FastAPI(
-    title="Grithaq Product API",
-    description="API for Grithaq Product",
+    title="Grithaq TODO API",
+    description="API for Grithaq TODO App",
     version="1.0.0",
 )
 

@@ -1,4 +1,6 @@
-class ListProduct():
+from entity import User, Category, Todo
+
+class ProductRepository:
     products = []
 
     def get_products(self):
@@ -25,28 +27,24 @@ class ListProduct():
         pass
     
 
-class ListUsers():
-    users = [
-        {'id': 1, "name": "grithaq", "email": "grithaq@gmail.com"},
-        {'id': 2, "name": "lutfi", "email": "lutfi@gmail.com"},
-        {'id': 1, "name": "olan", "email": "olan@gmail.com"}
-    ]
+class UserRepository:
+    users = []
 
-    def get_users(self):
+    def get(self):
         return self.users
     
-    def add_user(self, user):
+    def add(self, user):
         self.users.append(user)
         return self.get_users()
     
-    def update_user(self, id: str, user):
+    def update(self, id: str, user):
         for index, usr in enumerate(self.users):
             if usr['id'] == int(id):
                 self.users[index] = user
                 return self.get_users()
         return "User not found"
     
-    def delete_user(self, id: str):
+    def delete(self, id: str):
         pass
         # for index, user in enumerate(self.users):
         #     if user['id'] == int(id):
@@ -55,28 +53,24 @@ class ListUsers():
         # return "User not found"
     
 
-class ListCategory():
+class CategoryRepository(): #crud
     categories = []
 
-    def get_all_categories(self):
+    def get(self):
         return self.categories
-        # category_deserializer = ListCategoryResponse(
-        #     categories=self.categories
-        #     )
-        # return category_deserializer.model_dump(mode='json')
     
-    def add_category(self, category):
+    def add(self, category):
         self.categories.append(category)
         return self.categories
     
-    def update_category(self, id: str, category):
+    def update(self, id: str, category):
         for index, cat in enumerate(self.categories):
             if cat['id'] == int(id):
                 self.categories[index] = category
                 return self.get_all_categories()
         return "Category not found"
     
-    def delete_category(self, id: str):
+    def delete(self, id: str):
         for index, category in enumerate(self.categories):
             if category['id'] == int(id):
                 del self.categories[index]
@@ -84,6 +78,6 @@ class ListCategory():
         return "Category not found"
 
 
-db_categories = ListCategory()
-db_products = ListProduct()
-db_users = ListUsers()
+db_categories = CategoryRepository()
+db_products = ProductRepository()
+db_users = UserRepository()
