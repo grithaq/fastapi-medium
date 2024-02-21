@@ -81,12 +81,11 @@ class ListCategory():
         return "Category not found"
     
     def delete_category(self, id: str):
-        pass
-        # for index, category in enumerate(self.categories):
-        #     if category['id'] == int(id):
-        #         del self.categories[index]
-        #         return self.get_all_categories()
-        # return "Category not found"
+        for index, category in enumerate(self.categories):
+            if category['id'] == int(id):
+                del self.categories[index]
+                return self.get_all_categories()
+        return "Category not found"
 
 
 db_categories = ListCategory()

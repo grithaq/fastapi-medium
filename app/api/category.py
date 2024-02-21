@@ -38,19 +38,16 @@ def add_category(category: CategorySchema):
     return data
 
 
-@router.put(
+@router.delete(
     "/category/{id}", tags=["Categories"],
     response_model=ListCategoryResponse,
     status_code=status.HTTP_200_OK
-    )
-def update_category(id: str, category: CategorySchema):
-    categories = db_categories.update_category(
-        id, category.model_dump(exclude_unset=True)
-    )
+)
+def delete_category(id: str):
+    categories = db_categories.delete_category(id)
     data = {
         "message": "Success",
         "status": str(status.HTTP_200_OK),
         "categories": categories
     }
     return data
-
