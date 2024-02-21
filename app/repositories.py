@@ -74,13 +74,11 @@ class ListCategory():
         return self.categories
     
     def update_category(self, id: str, category):
-        pass
-        # category = category.model_dump(exclude_unset=True)
-        # for index, cat in enumerate(self.categories):
-        #     if cat['id'] == int(id):
-        #         self.categories[index] = category
-        #         return self.get_all_categories()
-        # return "Category not found"
+        for index, cat in enumerate(self.categories):
+            if cat['id'] == int(id):
+                self.categories[index] = category
+                return self.get_all_categories()
+        return "Category not found"
     
     def delete_category(self, id: str):
         pass
