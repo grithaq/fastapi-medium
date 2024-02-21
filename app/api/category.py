@@ -38,6 +38,11 @@ def add_category(category: CategorySchema):
     return data
 
 
+@router.put(
+    "/category/{id}", tags=["Categories"],
+    response_model=ListCategoryResponse,
+    status_code=status.HTTP_200_OK
+)
 def update_category(id: str, category: CategorySchema):
     categories = db_categories.update_category(
         id, category.model_dump(exclude_unset=True)
