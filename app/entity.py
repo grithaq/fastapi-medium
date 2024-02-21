@@ -1,18 +1,22 @@
-class Product:
+from typing import List, TypeVar
+from dataclasses import dataclass
 
-    def __init__(self, id, name, price):
-        self.id = id
-        self.name = name
-        self.price = price
-
+T = TypeVar("T")
 
 class User:
-    pass
-
+    id: int
+    name: str
+    
 
 class Category:
-    pass
+    id: int
+    name: str
+    user: User
 
 
 class Todo:
-    pass
+    id: int
+    title: str
+    description: str
+    categories: List[Category]
+    user: User
