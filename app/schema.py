@@ -2,6 +2,11 @@ from pydantic import BaseModel, Field
 from typing import List
 
 
+class ResponseModel(BaseModel):
+    message: str
+    status: str
+
+
 class Product(BaseModel):
     id: int = Field(description="The ID of the product",)
     name: str = Field(description="The name of the product",)
@@ -27,5 +32,5 @@ class CategorySchema(BaseModel):
     name: str
 
 
-class ListCategorySchema(BaseModel):
+class ListCategoryResponse(ResponseModel):
     categories: List[CategorySchema]
