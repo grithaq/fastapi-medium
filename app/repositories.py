@@ -41,13 +41,11 @@ class ListUsers():
         # return self.get_users()
     
     def update_user(self, id: str, user):
-        pass
-        # user = user.model_dump(exclude_unset=True)
-        # for index, usr in enumerate(self.users):
-        #     if usr['id'] == int(id):
-        #         self.users[index] = user
-        #         return self.get_users()
-        # return "User not found"
+        for index, usr in enumerate(self.users):
+            if usr['id'] == int(id):
+                self.users[index] = user
+                return self.get_users()
+        return "User not found"
     
     def delete_user(self, id: str):
         pass
