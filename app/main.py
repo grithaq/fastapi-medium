@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from routers import product, user, category
+from api import product, user, category
 
 app = FastAPI(
     title="Grithaq Product API",
