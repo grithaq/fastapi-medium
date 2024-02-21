@@ -23,7 +23,7 @@ class UserSchema(BaseModel):
     email: str
 
 
-class ListUserSchema(BaseModel):
+class ListUserSchema(ResponseModel):
     users: List[UserSchema]
 
 
