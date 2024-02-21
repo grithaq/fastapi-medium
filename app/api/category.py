@@ -38,6 +38,17 @@ def add_category(category: CategorySchema):
     return data
 
 
+def update_category(id: str, category: CategorySchema):
+    categories = db_categories.update_category(
+        id, category.model_dump(exclude_unset=True)
+    )
+    data = {
+        "message": "Success",
+        "status": str(status.HTTP_200_OK),
+        "categories": categories
+    }
+    return data
+
 @router.delete(
     "/category/{id}", tags=["Categories"],
     response_model=ListCategoryResponse,
