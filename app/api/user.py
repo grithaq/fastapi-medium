@@ -24,3 +24,19 @@ def get_all_users():
 @router.post('/user', tags=['Users'])
 def add_new_user(user: UserSchema):
     return repositories.db_users.add_user(user)
+
+
+@router.put(
+    "/user/{id}", tags=['Users'],
+    response_model=ListUserSchema,
+    status_code=status.HTTP_200_OK
+)
+def update_user(id: str, user: UserSchema):
+    users = repositories.db_users.update_user(
+        id, user.model_dump(exclude_unset=True))
+    data = {
+        "message": "Success",
+        "status": str(status.HTTP_200_OK),
+        "users": users
+    }
+    return data
