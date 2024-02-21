@@ -70,9 +70,7 @@ class ListCategory():
         # return category_deserializer.model_dump(mode='json')
     
     def add_category(self, category):
-        pass
-        # self.categories.append(category.model_dump(exclude_unset=True))
-        # return self.get_all_categories()
+        self.categories.append(category)
     
     def update_category(self, id: str, category):
         pass
