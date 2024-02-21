@@ -26,12 +26,14 @@ class ListProduct():
     
 
 class ListUsers():
-    users = []
+    users = [
+        {'id': 1, "name": "grithaq", "email": "grithaq@gmail.com"},
+        {'id': 2, "name": "lutfi", "email": "lutfi@gmail.com"},
+        {'id': 1, "name": "olan", "email": "olan@gmail.com"}
+    ]
 
     def get_users(self):
-        pass
-        # user_schema_serializer = ListUserSchema(users=self.users)
-        # return user_schema_serializer.model_dump(mode='json')
+        return self.users
     
     def add_user(self, user):
         pass
@@ -57,10 +59,7 @@ class ListUsers():
     
 
 class ListCategory():
-    categories = [
-        {"id": 1, "name": "Rempah"},
-        {"id": 2, "name": "Buah"},
-    ]
+    categories = []
 
     def get_all_categories(self):
         return self.categories
