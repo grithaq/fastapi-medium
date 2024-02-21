@@ -27,9 +27,7 @@ def get_categories():
     status_code=status.HTTP_201_CREATED
     )
 def add_category(category: CategorySchema):
-    categories = db_categories.add_category(
-        category.model_dump(exclude_unset=True)
-        )
+    categories = db_categories.add_category(category.model_dump(exclude_unset=True))
     data = {
         "message": "Success",
         "status": str(status.HTTP_200_OK),

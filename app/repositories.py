@@ -71,6 +71,7 @@ class ListCategory():
     
     def add_category(self, category):
         self.categories.append(category)
+        return self.categories
     
     def update_category(self, id: str, category):
         pass
