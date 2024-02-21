@@ -36,9 +36,8 @@ class ListUsers():
         return self.users
     
     def add_user(self, user):
-        pass
-        # self.users.append(user.model_dump(exclude_unset=True))
-        # return self.get_users()
+        self.users.append(user)
+        return self.get_users()
     
     def update_user(self, id: str, user):
         for index, usr in enumerate(self.users):
