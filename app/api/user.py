@@ -34,3 +34,9 @@ def update_user(id: str, user: UserSchema):
         id, user.model_dump(exclude_unset=True))
     data = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
     return data
+
+@router.delete("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
+def delete_user(id: str):
+    users = repositories.db_users.delete(id)
+    data = ListUserSchema(message="Success", status=str(status.HTTP_204_NO_CONTENT), data=users)
+    return data
