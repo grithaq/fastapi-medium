@@ -12,16 +12,12 @@ router = APIRouter()
         response_model=ListUserSchema
 )
 def get_all_users():
-    users = repositories.db_users.get_users()
-    data = {
-        "message": "Success",
-        "status": str(status.HTTP_200_OK),
-        "users": users
-    }
-    return data
+    users = repositories.db_users.get()
+    lus = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
+    return lus
     
 
-@router.post('/user', tags=['Users'])
+@router.post('/user', tags=['Users'], status_code=status.HTTP_201_CREATED)
 def create_user(user: UserSchema):
     users = repositories.db_users.add(user.model_dump(exclude_unset=True))
     lus = ListUserSchema(message="Success", status=str(status.HTTP_201_CREATED), data=users)
@@ -34,11 +30,7 @@ def create_user(user: UserSchema):
     status_code=status.HTTP_200_OK
 )
 def update_user(id: str, user: UserSchema):
-    users = repositories.db_users.update_user(
+    users = repositories.db_users.update(
         id, user.model_dump(exclude_unset=True))
-    data = {
-        "message": "Success",
-        "status": str(status.HTTP_200_OK),
-        "users": users
-    }
+    data = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
     return data

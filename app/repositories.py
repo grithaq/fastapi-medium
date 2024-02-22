@@ -35,9 +35,6 @@ class UserRepository:
         return self.users
     
     def add(self, user):
-        print("user in repo", user)
-        print(user["id"])
-        print(user["name"])
         user_model = User()
         user_model.id = user["id"]
         user_model.name = user["name"]
@@ -48,7 +45,7 @@ class UserRepository:
         for index, usr in enumerate(self.users):
             if usr['id'] == int(id):
                 self.users[index] = user
-                return self.get_users()
+                return self.get()
         return "User not found"
     
     def delete(self, id: str):
@@ -60,7 +57,7 @@ class UserRepository:
         # return "User not found"
     
 
-class CategoryRepository(): #crud
+class CategoryRepository():
     categories = []
 
     def get(self):
