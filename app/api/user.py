@@ -12,13 +12,9 @@ router = APIRouter()
         response_model=ListUserSchema
 )
 def get_all_users():
-    users = repositories.db_users.get_users()
-    data = {
-        "message": "Success",
-        "status": str(status.HTTP_200_OK),
-        "users": users
-    }
-    return data
+    users = repositories.db_users.get()
+    lus = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
+    return lus
     
 
 @router.post('/user', tags=['Users'])
