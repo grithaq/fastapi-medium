@@ -6,11 +6,7 @@ from schema import UserSchema, ListUserSchema
 router = APIRouter()
 
 
-@router.get(
-        '/user', tags=['Users'],
-        status_code=status.HTTP_200_OK,
-        response_model=ListUserSchema
-)
+@router.get('/user', tags=['Users'], status_code=status.HTTP_200_OK)
 def get_all_users():
     users = repositories.db_users.get()
     lus = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
@@ -24,16 +20,12 @@ def create_user(user: UserSchema):
     return lus
 
 
-@router.put(
-    "/user/{id}", tags=['Users'],
-    response_model=ListUserSchema,
-    status_code=status.HTTP_200_OK
-)
+@router.put("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
 def update_user(id: str, user: UserSchema):
-    users = repositories.db_users.update(
-        id, user.model_dump(exclude_unset=True))
+    users = repositories.db_users.update(id, user.model_dump(exclude_unset=True))
     data = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
     return data
+
 
 @router.delete("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
 def delete_user(id: str):
