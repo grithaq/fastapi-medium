@@ -24,9 +24,9 @@ def get_all_users():
 @router.post('/user', tags=['Users'])
 def create_user(user: UserSchema):
     users = repositories.db_users.add(user.model_dump(exclude_unset=True))
-    print("--- in api ---")
-    print(users, type(users))
-    print("users in the list type", type(users[0]))
+    lus = ListUserSchema(message="Success", status=str(status.HTTP_201_CREATED), data=users)
+    return lus
+
 
 @router.put(
     "/user/{id}", tags=['Users'],

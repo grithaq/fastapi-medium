@@ -26,7 +26,7 @@ class UserSchema(BaseModel):
 
 
 class ListUserSchema(ResponseModel):
-    users: List[T]
+    pass
 
 
 class CategorySchema(BaseModel):
