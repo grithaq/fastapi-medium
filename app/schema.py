@@ -23,7 +23,6 @@ class ListProduct(ResponseModel):
 class UserSchema(BaseModel):
     id: int
     name: str
-    email: str
 
 
 class ListUserSchema(ResponseModel):
