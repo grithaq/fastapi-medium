@@ -35,9 +35,6 @@ class UserRepository:
         return self.users
     
     def add(self, user):
-        print("user in repo", user)
-        print(user["id"])
-        print(user["name"])
         user_model = User()
         user_model.id = user["id"]
         user_model.name = user["name"]
