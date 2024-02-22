@@ -23,11 +23,10 @@ def get_all_users():
 
 @router.post('/user', tags=['Users'])
 def create_user(user: UserSchema):
-    users = repositories.db_users.add(user)
-    lus = ListUserSchema(users=users)
-    lus.status = status.HTTP_201_CREATED
-    lus.message = "Success"
-    return lus
+    users = repositories.db_users.add(user.model_dump(exclude_unset=True))
+    print("--- in api ---")
+    print(users, type(users))
+    print("users in the list type", type(users[0]))
 
 @router.put(
     "/user/{id}", tags=['Users'],
