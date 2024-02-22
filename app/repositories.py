@@ -49,12 +49,11 @@ class UserRepository:
         return "User not found"
     
     def delete(self, id: str):
-        pass
-        # for index, user in enumerate(self.users):
-        #     if user['id'] == int(id):
-        #         del self.users[index]
-        #         return self.get_users()
-        # return "User not found"
+        for index, user in enumerate(self.users):
+            if user['id'] == int(id):
+                del self.users[index]
+                return self.get()
+        return "User not found"
     
 
 class CategoryRepository():
