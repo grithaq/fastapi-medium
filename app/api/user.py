@@ -22,14 +22,10 @@ def get_all_users():
     
 
 @router.post('/user', tags=['Users'])
-def add_new_user(user: UserSchema):
-    users = repositories.db_users.add_user(user)
-    data = {
-        "message": "Success",
-        "status": status.HTTP_201_CREATED,
-        "users": users
-    }
-    return data
+def create_user(user: UserSchema):
+    users = repositories.db_users.add(user.model_dump(exclude_unset=True))
+    lus = ListUserSchema(message="Success", status=str(status.HTTP_201_CREATED), data=users)
+    return lus
 
 
 @router.put(

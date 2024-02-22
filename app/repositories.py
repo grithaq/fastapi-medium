@@ -1,5 +1,6 @@
 from entity import User, Category, Todo
 
+
 class ProductRepository:
     products = []
 
@@ -34,8 +35,14 @@ class UserRepository:
         return self.users
     
     def add(self, user):
+        print("user in repo", user)
+        print(user["id"])
+        print(user["name"])
+        user_model = User()
+        user_model.id = user["id"]
+        user_model.name = user["name"]
         self.users.append(user)
-        return self.get_users()
+        return self.users
     
     def update(self, id: str, user):
         for index, usr in enumerate(self.users):
