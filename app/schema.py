@@ -30,6 +30,14 @@ class CategorySchema(BaseModel):
     name: str
 
 
+class TodoSchema(BaseModel):
+    id: int
+    title: str
+    description: str
+    categories: List[T]
+    user: UserSchema
+
+
 class ListUserSchema(ResponseModel):
     pass
 
