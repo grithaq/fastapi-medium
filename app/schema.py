@@ -25,14 +25,14 @@ class UserSchema(BaseModel):
     name: str
 
 
-class ListUserSchema(ResponseModel):
-    pass
-
-
 class CategorySchema(BaseModel):
     id: int
     name: str
 
 
+class ListUserSchema(ResponseModel):
+    pass
+
+
 class ListCategoryResponse(ResponseModel):
-    data: List[CategorySchema]
+    pass
