@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from api import product, user, category
+from api import todo, user, category
 
 app = FastAPI(
     title="Grithaq TODO API",
@@ -9,6 +9,6 @@ app = FastAPI(
 
 router = APIRouter()
 
-# app.include_router(product.router, prefix="/api/v1")
+app.include_router(todo.router, prefix="/api/v1")
 app.include_router(user.router, prefix="/api/v1")
 app.include_router(category.router, prefix="/api/v1")
