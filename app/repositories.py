@@ -77,7 +77,7 @@ class CategoryRepository():
         for index, category in enumerate(self.categories):
             if category['id'] == int(id):
                 del self.categories[index]
-                return self.get_all_categories()
+                return self.get()
         return "Category not found"
 
 
