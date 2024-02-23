@@ -70,7 +70,7 @@ class CategoryRepository():
         for index, cat in enumerate(self.categories):
             if cat['id'] == int(id):
                 self.categories[index] = category
-                return self.get_all_categories()
+                return self.get()
         return "Category not found"
     
     def delete(self, id: str):
