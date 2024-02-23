@@ -28,6 +28,15 @@ class UserSchema(BaseModel):
 class CategorySchema(BaseModel):
     id: int
     name: str
+    user: UserSchema
+
+
+class TodoSchema(BaseModel):
+    id: int
+    title: str
+    description: str
+    categories: List[CategorySchema]
+    user: UserSchema
 
 
 class ListUserSchema(ResponseModel):
@@ -35,4 +44,8 @@ class ListUserSchema(ResponseModel):
 
 
 class ListCategoryResponse(ResponseModel):
+    pass
+
+
+class ListTodoResponse(ResponseModel):
     pass

@@ -63,10 +63,18 @@ class CategoryRepository():
         return self.categories
     
     def add(self, category):
+        category_entity = Category()
+        category_entity.id = category["id"]
+        category_entity.name = category["name"]
+        category_entity.user = category['user']
         self.categories.append(category)
         return self.categories
     
     def update(self, id: str, category):
+        category_entity = Category()
+        category_entity.id = category["id"]
+        category_entity.name = category["name"]
+        category_entity.user = category['user']
         for index, cat in enumerate(self.categories):
             if cat['id'] == int(id):
                 self.categories[index] = category
@@ -81,6 +89,24 @@ class CategoryRepository():
         return "Category not found"
 
 
+class TodoRepository():
+    todos = []
+
+    def get(self):
+        return self.todos
+    
+    def add(self, todo):
+        t = Todo()
+        t.id = todo['id']
+        t.title = todo['title']
+        t.description = todo['description']
+        t.categories = todo['categories']
+        t.user = todo['user']
+        self.todos.append(t)
+        return self.todos
+
+
 db_categories = CategoryRepository()
 db_products = ProductRepository()
 db_users = UserRepository()
+db_todo = TodoRepository()
