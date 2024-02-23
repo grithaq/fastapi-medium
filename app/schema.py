@@ -48,4 +48,4 @@ class ListCategoryResponse(ResponseModel):
 
 
 class ListTodoResponse(ResponseModel):
-    data: List[TodoSchema]
+    pass
