@@ -21,21 +21,11 @@ def get_categories():
     return data
 
 
-@router.post(
-    "/category", tags=["Categories"],
-    response_model=ListCategoryResponse,
-    status_code=status.HTTP_201_CREATED
-    )
+@router.post("/category", tags=["Categories"], status_code=status.HTTP_201_CREATED)
 def add_category(category: CategorySchema):
-    categories = db_categories.add_category(
-        category.model_dump(exclude_unset=True)
-        )
-    data = {
-        "message": "Success",
-        "status": str(status.HTTP_200_OK),
-        "categories": categories
-    }
-    return data
+    categories = db_categories.add(category.model_dump(exclude_unset=True))
+    lcs = ListCategoryResponse(message="Success", status=str(status.HTTP_201_CREATED), data=categories)
+    return lcs
 
 
 @router.put(
