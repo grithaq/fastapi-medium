@@ -6,26 +6,22 @@ from repositories import db_categories
 router = APIRouter()
 
 
-@router.get(
-        "/category", tags=["Categories"],
-        response_model=ListCategoryResponse,
-        status_code=status.HTTP_200_OK
-        )
+@router.get("/category", tags=["Categories"], status_code=status.HTTP_200_OK)
 def get_categories():
-    categories = db_categories.get_all_categories()
-    data = {
-        "message": "Success",
-        "status": str(status.HTTP_200_OK),
-        "categories": categories
-    }
-    return data
+    categories = db_categories.get()
+    list_category_response = ListCategoryResponse(
+        message="Success", status=str(status.HTTP_200_OK), data=categories
+    )
+    return list_category_response
 
 
 @router.post("/category", tags=["Categories"], status_code=status.HTTP_201_CREATED)
 def add_category(category: CategorySchema):
     categories = db_categories.add(category.model_dump(exclude_unset=True))
-    lcs = ListCategoryResponse(message="Success", status=str(status.HTTP_201_CREATED), data=categories)
-    return lcs
+    list_category_response = ListCategoryResponse(
+        message="Success", status=str(status.HTTP_201_CREATED), data=categories
+    )
+    return list_category_response
 
 
 @router.put(
