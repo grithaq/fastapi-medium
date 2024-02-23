@@ -63,10 +63,18 @@ class CategoryRepository():
         return self.categories
     
     def add(self, category):
+        category_entity = Category()
+        category_entity.id = category["id"]
+        category_entity.name = category["name"]
+        category_entity.user = category['user']
         self.categories.append(category)
         return self.categories
     
     def update(self, id: str, category):
+        category_entity = Category()
+        category_entity.id = category["id"]
+        category_entity.name = category["name"]
+        category_entity.user = category['user']
         for index, cat in enumerate(self.categories):
             if cat['id'] == int(id):
                 self.categories[index] = category
