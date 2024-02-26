@@ -10,3 +10,8 @@ class CategorySchema(BaseModel):
 
 class ListCategoryResponse(ResponseModel):
     pass
+
+
+class TodoCategorySchema(BaseModel):
+    id: int
+    name: str
