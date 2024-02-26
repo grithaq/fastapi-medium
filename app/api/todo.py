@@ -10,11 +10,11 @@ router = APIRouter()
         "/todo", status_code=status.HTTP_201_CREATED, tags=['TODO']
 )
 def create_todo(todo: TodoSchema):
-    # print(todo.model_dump(exclude_unset=True))
-    todo_repo = repositories.db_todo.add(todo.model_dump(exclude_unset=True))
-    print(type(todo_repo), todo_repo)
-    print(type(todo_repo), todo_repo)
+    todo_obj = todo.model_dump(exclude_unset=True)
+    todos = repositories.todo.db_todo.add(todo_obj)
+    todos = [tr.__dict__ for tr in todos]
     list_todo_response = ListTodoResponse(
-        message="Success", status=str(status.HTTP_201_CREATED), data=todo_repo
+        message="Success", status=str(status.HTTP_201_CREATED),
+        data=todos
     )
     return list_todo_response
