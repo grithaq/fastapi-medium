@@ -11,5 +11,13 @@ class TodoSchema(BaseModel):
     user: UserSchema
 
 
+class TodoRequestSchema(BaseModel):
+    id: int
+    title: str
+    description: str
+    categories: List[T]
+    user_id: int
+
+
 class ListTodoResponse(ResponseModel):
-    data: List[TodoSchema]
+    data: List[T]
