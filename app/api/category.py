@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status
-from schema import ListCategoryResponse, CategorySchema
+from schema import ListCategoryResponse, CategorySchema, CategoryRequestSchema
 from repositories import db_categories
 
 
@@ -20,7 +20,7 @@ def get_categories():
 @router.post(
         "/category", tags=["Categories"], status_code=status.HTTP_201_CREATED
 )
-def add_category(category: CategorySchema):
+def add_category(category: CategoryRequestSchema):
     categories = db_categories.add(category.model_dump(exclude_unset=True))
     list_category_response = ListCategoryResponse(
         message="Success", status=str(status.HTTP_201_CREATED), data=categories
