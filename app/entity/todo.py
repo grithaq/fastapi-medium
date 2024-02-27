@@ -9,3 +9,4 @@ class Todo:
     description: str
     categories: List[Category]
     user: User
+    user_id: int
