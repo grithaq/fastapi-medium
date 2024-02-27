@@ -11,6 +11,6 @@ app = FastAPI(
 
 router = APIRouter()
 
-app.include_router(todo.router, prefix=settings.API_V1_STR)
 app.include_router(user.router, prefix=settings.API_V1_STR)
+app.include_router(todo.router, prefix=settings.API_V1_STR)
 app.include_router(category.router, prefix=settings.API_V1_STR)
