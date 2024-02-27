@@ -8,7 +8,17 @@ class CategorySchema(BaseModel):
     user: UserSchema
 
 
+class CategoryRequestSchema(BaseModel):
+    id: int
+    name: str
+    user_id: int
+
+
 class ListCategoryResponse(ResponseModel):
+    pass
+
+
+class CreateCategoryResponse(ResponseModel):
     pass
 
 
