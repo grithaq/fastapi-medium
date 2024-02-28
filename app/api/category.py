@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status
 from schema import ListCategoryResponse, CategorySchema, CategoryRequestSchema
 from repositories import db_categories
+from core.error import NewError
 
 
 router = APIRouter()
@@ -54,7 +55,7 @@ def delete_category(id: str):
         )
         return list_category_response
     except Exception:
-        list_category_response = ListCategoryResponse(
-            message=category, status=str(status.HTTP_404_NOT_FOUND), data=[]
-        )
-        return list_category_response
+        # list_category_response = ListCategoryResponse(
+        #     message=category, status=str(status.HTTP_404_NOT_FOUND), data=[]
+        # )
+        raise NewError
