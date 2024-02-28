@@ -8,3 +8,8 @@ class ResponseModel(BaseModel):
     message: str
     status: str
     data: List[T]
+
+
+class PaginationResponseModel(BaseModel):
+    current: int
+    total: int
