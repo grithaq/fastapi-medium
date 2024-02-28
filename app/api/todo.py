@@ -36,7 +36,9 @@ def get_todos():
         "/todo", status_code=status.HTTP_201_CREATED, tags=['TODO']
 )
 def create_todo(todo: TodoRequestSchema):
+    print(todo)
     todo_obj = todo.model_dump(exclude_unset=True)
+    print(f"todo api obj {todo_obj}")
     todos = repositories.todo.db_todo.add(todo_obj)
     todos = [tr.__dict__ for tr in todos]
     list_todo_response = ListTodoResponse(
