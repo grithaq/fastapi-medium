@@ -5,13 +5,11 @@ from .user import UserSchema
 class CategorySchema(BaseModel):
     id: int
     name: str
-    user: UserSchema
 
 
 class CategoryRequestSchema(BaseModel):
     id: int
     name: str
-    user_id: int
 
 
 class ListCategoryResponse(ResponseModel):
