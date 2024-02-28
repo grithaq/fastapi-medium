@@ -5,7 +5,6 @@ from .user import UserSchema
 class CategorySchema(BaseModel):
     id: int
     name: str
-    user: UserSchema
 
 
 class CategoryRequestSchema(BaseModel):
