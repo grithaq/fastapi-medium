@@ -1,6 +1,7 @@
 import repositories
 from fastapi import APIRouter, status
 from schema import UserSchema, ListUserSchema
+from core.error import NewError
 
 
 router = APIRouter()
@@ -29,6 +30,10 @@ def update_user(id: str, user: UserSchema):
 
 @router.delete("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
 def delete_user(id: str):
-    users = repositories.db_users.delete(id)
-    data = ListUserSchema(message="Success", status=str(status.HTTP_204_NO_CONTENT), data=users)
-    return data
+    try:
+        users = repositories.db_users.delete(id)
+        data = ListUserSchema(message="Success", status=str(status.HTTP_204_NO_CONTENT), data=users)
+        return data
+    except NewError:
+        return NewError(status="404", msg="User is not found")
+        
