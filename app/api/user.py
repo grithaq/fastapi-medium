@@ -23,9 +23,12 @@ def create_user(user: UserSchema):
 
 @router.put("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
 def update_user(id: str, user: UserSchema):
-    users = repositories.db_users.update(id, user.model_dump(exclude_unset=True))
-    data = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
-    return data
+    try:
+        users = repositories.db_users.update(id, user.model_dump(exclude_unset=True))
+        data = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users)
+        return data
+    except NewError:
+        return NewError(status="404", msg="invalid user id, user with id {} not found".format(id))
 
 
 @router.delete("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
@@ -35,5 +38,5 @@ def delete_user(id: str):
         data = ListUserSchema(message="Success", status=str(status.HTTP_204_NO_CONTENT), data=users)
         return data
     except NewError:
-        return NewError(status="404", msg="User is not found")
+        return NewError(status="404", msg="invalid user id, user with id {} not found".format(id))
         
