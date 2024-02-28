@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status
-from schema import TodoSchema, ListTodoResponse, TodoRequestSchema
+from schema import TodoSchema, ListTodoResponse, TodoRequestSchema, GetTodosResponse
 import repositories
 
 
@@ -11,9 +11,23 @@ router = APIRouter()
 )
 def get_todos():
     todos = repositories.todo.db_todo.get()
+
+    list_todo = []
     todos = [t.__dict__ for t in todos]
-    todos_schema = ListTodoResponse(
-        message="Success", status=str(status.HTTP_200_OK), data=todos
+    for t in todos:
+        if t['user_id'] == 1:
+            todo = {
+                "id": t['id'],
+                "title": t['title'],
+                "description": t['description'],
+                "categories": t['categories'],
+            }
+            list_todo.append(todo)
+    print(todos)
+    print(list_todo)
+    todos_schema = GetTodosResponse(
+        message="Success", status=str(status.HTTP_200_OK),
+        todos=list_todo, user_id=1
     )
     return todos_schema
 
@@ -27,7 +41,7 @@ def create_todo(todo: TodoRequestSchema):
     todos = [tr.__dict__ for tr in todos]
     list_todo_response = ListTodoResponse(
         message="Success", status=str(status.HTTP_201_CREATED),
-        data=todos
+        todos=todos
     )
     return list_todo_response
 

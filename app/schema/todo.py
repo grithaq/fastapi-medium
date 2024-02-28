@@ -1,4 +1,4 @@
-from .base import BaseModel, ResponseModel, List, T
+from .base import BaseModel, List, T
 from .category import TodoCategorySchema
 from .user import UserSchema
 
@@ -19,5 +19,10 @@ class TodoRequestSchema(BaseModel):
     user_id: int
 
 
-class ListTodoResponse(ResponseModel):
-    data: List[T]
+class ListTodoResponse(BaseModel):
+    message: str
+    status: str
+    todos: List[T]
+
+class GetTodosResponse(ListTodoResponse):
+    user_id: int
