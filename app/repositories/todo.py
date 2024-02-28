@@ -29,6 +29,13 @@ class TodoRepository():
                 self.todos[index] = t
                 return self.get()
         return self.todos
+    
+    def delete(self, id):
+        for index, td in enumerate(self.todos):
+            if td.id == int(id):
+                del self.todos[index]
+                return self.get()
+            return "Todo not found"
 
 
 db_todo = TodoRepository()
