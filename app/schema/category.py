@@ -11,7 +11,6 @@ class CategorySchema(BaseModel):
 class CategoryRequestSchema(BaseModel):
     id: int
     name: str
-    user_id: int
 
 
 class ListCategoryResponse(ResponseModel):

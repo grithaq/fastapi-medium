@@ -11,7 +11,6 @@ class CategoryRepository():
         category_entity = Category()
         category_entity.id = category["id"]
         category_entity.name = category["name"]
-        category_entity.user = category['user']
         self.categories.append(category)
         return self.categories
     
