@@ -1,4 +1,4 @@
-from .base import BaseModel, ResponseModel
+from .base import BaseModel, ResponseModel, PaginationResponseModel
 
 
 class UserSchema(BaseModel):
@@ -8,3 +8,7 @@ class UserSchema(BaseModel):
 
 class ListUserSchema(ResponseModel):
     pass
+
+
+class ListUserResponse(ResponseModel):
+    pagination: PaginationResponseModel
