@@ -29,3 +29,8 @@ class GetTodosResponse(BaseModel):
     status: str
     user_id: int
     todos: List[T]
+    
+
+class TodoResponse(BaseModel):
+    message: str
+    status: str

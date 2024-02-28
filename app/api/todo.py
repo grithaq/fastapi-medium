@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status
-from schema import TodoSchema, ListTodoResponse, TodoRequestSchema, GetTodosResponse
+from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse
 import repositories
+from core.error import NewError
 
 
 router = APIRouter()
@@ -59,3 +60,16 @@ def update_todo(id: str, todo:TodoRequestSchema):
     )
     return list_todo_response
     
+
+@router.delete(
+    "/todo/{id}", tags=['TODO']
+)
+def delete_todo(id: str):
+    todo = repositories.todo.db_todo.delete(id)
+    print(todo)
+    if todo != None:
+        data = TodoResponse(
+            message="Success", status=str(status.HTTP_204_NO_CONTENT)
+        )
+        return data
+    return NewError(status="404", msg="invalid todo id, todo with id {} not found".format(id))
