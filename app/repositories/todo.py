@@ -18,10 +18,17 @@ class TodoRepository():
         return self.todos
     
     def update(self, id, todo):
-        print(id)
-        print(self.todos)
-        print
-        print(todo)
+        for index, td in enumerate(self.todos):
+            if td.id == int(id):
+                t = Todo()
+                t.id = todo['id']
+                t.title = todo['title']
+                t.description = todo['description']
+                t.categories = todo['categories']
+                t.user_id = todo['user_id']
+                self.todos[index] = t
+                return self.get()
+        return self.todos
 
 
 db_todo = TodoRepository()

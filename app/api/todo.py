@@ -23,8 +23,6 @@ def get_todos():
                 "categories": t['categories'],
             }
             list_todo.append(todo)
-    print(todos)
-    print(list_todo)
     todos_schema = GetTodosResponse(
         message="Success", status=str(status.HTTP_200_OK),
         todos=list_todo, user_id=1
@@ -49,8 +47,13 @@ def create_todo(todo: TodoRequestSchema):
 @router.put(
     "/todo/{id}", status_code=status.HTTP_200_OK, tags=['TODO']
 )
-def update_todo(id: str, todo:TodoSchema):
+def update_todo(id: str, todo:TodoRequestSchema):
     todo_obj = todo.model_dump(exclude_unset=True)
     todos = repositories.todo.db_todo.update(id, todo_obj)
-    print(todos)
+    todos = [tr.__dict__ for tr in todos]
+    list_todo_response = ListTodoResponse(
+        message="Success", status=str(status.HTTP_200_OK),
+        todos=todos
+    )
+    return list_todo_response
     
