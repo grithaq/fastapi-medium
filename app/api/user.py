@@ -1,6 +1,6 @@
 import repositories
 from fastapi import APIRouter, status
-from schema import UserSchema, ListUserSchema, PaginationResponseModel
+from schema import UserSchema, ListUserSchema, ListUserResponse
 from core.error import NewError
 from utils import paginate
 
@@ -17,7 +17,7 @@ def get_all_users(per_page: int = 10, page: int = 1):
         "current": users['current'],
         "total": users['total']
     }
-    lus = ListUserSchema(message="Success", status=str(status.HTTP_200_OK), data=users['items'], pagination=pgsn)
+    lus = ListUserResponse(message="Success", status=str(status.HTTP_200_OK), data=users['items'], pagination=pgsn)
     return lus
     
 
