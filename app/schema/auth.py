@@ -2,5 +2,7 @@ from .base import BaseModel
 
 
 class SignUpSchema(BaseModel):
-    username: str
-    password: str
+    id: str = '1'
+    username: str = "grithaq"
+    email: str = 'grithaq@me.com'
+    password: str = '123456'

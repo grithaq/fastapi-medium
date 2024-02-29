@@ -10,7 +10,9 @@ class UserRepository:
     def add(self, user):
         user_model = User()
         user_model.id = user["id"]
-        user_model.name = user["name"]
+        user_model.username = user["username"]
+        user_model.name = user["email"]
+        user_model.name = user["password"]
         self.users.append(user)
         return self.users
     
