@@ -2,6 +2,7 @@ from fastapi import APIRouter, status
 from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse
 import repositories
 from core.error import NewError
+from utils import paginate
 
 
 router = APIRouter()
@@ -10,7 +11,7 @@ router = APIRouter()
 @router.get(
         "/todo", status_code=status.HTTP_200_OK, tags=['TODO']
 )
-def get_todos():
+def get_todos(page: int = 1, per_page: int = 10):
     todos = repositories.todo.db_todo.get()
 
     list_todo = []
@@ -24,9 +25,14 @@ def get_todos():
                 "categories": t['categories'],
             }
             list_todo.append(todo)
+    todos = paginate(todos, page, per_page)
+    pgsn = {
+        "current": todos['current'],
+        "total": todos['total']
+    }
     todos_schema = GetTodosResponse(
         message="Success", status=str(status.HTTP_200_OK),
-        todos=list_todo, user_id=1
+        todos=todos['items'], user_id=1, pagination=pgsn
     )
     return todos_schema
 
