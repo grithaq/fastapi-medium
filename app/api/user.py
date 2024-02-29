@@ -2,22 +2,12 @@ import repositories
 from fastapi import APIRouter, status
 from schema import UserSchema, ListUserSchema, PaginationResponseModel
 from core.error import NewError
+from utils import paginate
 
 
 router = APIRouter()
 
 
-def paginate(items, page, per_page):
-    start = (page - 1) * per_page
-    end = start + per_page
-    current = page
-    total = len(items)
-    data = {
-        "current": current,
-        "total": total,
-        "items": items[start:end]
-    }
-    return data
 
 @router.get('/user', tags=['Users'], status_code=status.HTTP_200_OK)
 def get_all_users(per_page: int = 10, page: int = 1):
