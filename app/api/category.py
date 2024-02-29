@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status
-from schema import ListCategoryResponse, CategorySchema, CategoryRequestSchema
+from schema import ListCategoryResponse, CategorySchema, CategoryRequestSchema, CategoriesResponse
 from repositories import db_categories
+from utils.base import paginate
 
 
 router = APIRouter()
@@ -9,10 +10,16 @@ router = APIRouter()
 @router.get(
         "/category", tags=["Categories"], status_code=status.HTTP_200_OK
 )
-def get_categories():
+def get_categories(page: int = 1, per_page: int = 10):
     categories = db_categories.get()
-    list_category_response = ListCategoryResponse(
-        message="Success", status=str(status.HTTP_200_OK), data=categories
+    categories = paginate(categories, page, per_page)
+    pgsn = {
+        "current": categories['current'],
+        "total": categories['total']
+    }
+    list_category_response = CategoriesResponse(
+        message="Success", status=str(status.HTTP_200_OK), data=categories['items'],
+        pagination=pgsn
     )
     return list_category_response
 

@@ -1,4 +1,4 @@
-from .base import BaseModel, ResponseModel
+from .base import BaseModel, ResponseModel, PaginationResponseModel
 from .user import UserSchema
 
 
@@ -23,3 +23,7 @@ class CreateCategoryResponse(ResponseModel):
 class TodoCategorySchema(BaseModel):
     id: int
     name: str
+
+
+class CategoriesResponse(ListCategoryResponse):
+    pagination: PaginationResponseModel
