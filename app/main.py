@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from api import todo, user, category
+from api import todo, user, category, auth
 from core.config import settings
 
 app = FastAPI(
@@ -11,6 +11,7 @@ app = FastAPI(
 
 router = APIRouter()
 
+app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(user.router, prefix=settings.API_V1_STR)
 app.include_router(todo.router, prefix=settings.API_V1_STR)
 app.include_router(category.router, prefix=settings.API_V1_STR)
