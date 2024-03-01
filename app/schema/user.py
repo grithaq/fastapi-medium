@@ -24,4 +24,9 @@ class SignUpResponse(BaseModel):
     message: str
     status: str
     account: AccountSchema
+
+
+class SignInResponse(BaseModel):
+    access_token: str
+    token_type: str
     

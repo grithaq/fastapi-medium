@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, HTTPException
-from schema import SignUpSchema, SignUpResponse
+from schema import SignUpSchema, SignUpResponse, SignInResponse
 from utils import has_pass, authenticate_user, create_access_token
 from core.config import settings
 import repositories
@@ -40,4 +40,6 @@ def login_for_access_token(username: str, passwword: str):
     access_token = create_access_token(
         data={"sub": user['username']}, expires_delta=access_token_expires
     )
-    return access_token
+    return SignInResponse(
+        access_token=access_token, token_type="bearer"
+    )
