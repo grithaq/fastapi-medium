@@ -3,7 +3,7 @@ from schema import SignUpSchema, SignUpResponse, SignInResponse
 from utils import has_pass, authenticate_user, create_access_token
 from core.config import settings
 import repositories
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
 router = APIRouter()
 

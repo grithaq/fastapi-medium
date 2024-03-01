@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
-from jose import jwt, JWSError
-from typing import Union, Annotated
+from jose import jwt
+from typing import Union
 from datetime import timedelta, timezone, datetime
 from core.config import settings
 
