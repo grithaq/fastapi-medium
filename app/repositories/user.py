@@ -11,10 +11,10 @@ class UserRepository:
         user_model = User()
         user_model.id = user["id"]
         user_model.username = user["username"]
-        user_model.name = user["email"]
+        user_model.email = user["email"]
         user_model.name = user["password"]
         self.users.append(user)
-        return self.users
+        return user_model
     
     def update(self, id: str, user):
         for index, usr in enumerate(self.users):
