@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     PROJECT_VERSION: str = config_env("PROJECT_VERSION")
     DESCRIPTION: str = config_env("DESCRIPTION")
     DEBUG: str = config_env("DEBUG")
+    SECRET_KEY: str = config_env("SECRET_KEY")
+    ALGORITHM: str = config_env("ALGORITHM")
+    ACCESS_TOKEN_EXPIRE_MINUTE: int = config_env("ACCESS_TOKEN_EXPIRE_MINUTE")
 
 
 settings = Settings()
