@@ -1,11 +1,20 @@
+from typing import Annotated, Union
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
-from jose import jwt
-from typing import Union
+from jose import jwt, JWTError
 from datetime import timedelta, timezone, datetime
 from core.config import settings
+from schema import TokenData, SignUpSchema
 
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/sign_in")
+
+
+def get_db():
+    from repositories import db_users
+    return db_users.get()
 
 
 def has_pass(password: str):
@@ -48,12 +57,35 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     encode_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encode_jwt
 
-async def get_current_user():
-    pass
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    creadential_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate",
+        headers={'WWW-Authenticate': "Barrer"}
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise creadential_exception
+        token_data = TokenData(username=username)
+    except JWTError:
+        raise creadential_exception
+    print("INI GET DB", get_db())
+    user = get_user(get_db(), username=token_data.username)
+    if user is None:
+        raise creadential_exception
+    return user
 
 
-async def get_current_active_user():
-    pass
+async def get_current_active_user(
+        current_user: Annotated[SignUpSchema, Depends(get_current_user)]
+):
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
+    
 
 def paginate(items, page, per_page):
     start = (page - 1) * per_page

@@ -1,4 +1,5 @@
 from .base import BaseModel
+from typing import Union
 
 
 class SignUpSchema(BaseModel):
@@ -6,3 +7,6 @@ class SignUpSchema(BaseModel):
     username: str
     email: str
     password: str
+
+class TokenData(BaseModel):
+    username: Union[str, None] = None

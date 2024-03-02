@@ -12,7 +12,8 @@ class UserRepository:
         user_model.id = user["id"]
         user_model.username = user["username"]
         user_model.email = user["email"]
-        user_model.name = user["password"]
+        user_model.password = user["password"]
+        user_model.disabled = False
         self.users.append(user)
         return user_model
     
