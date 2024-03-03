@@ -1,34 +1,29 @@
 import repositories
-from fastapi import APIRouter, status
-from schema import UserSchema, ListUserSchema, ListUserResponse
+from fastapi import APIRouter, status, Depends
+from schema import UserSchema, ListUserSchema, UserAuthSchema, MyProfileResponse
 from core.error import NewError
-from utils import paginate
+from typing import Annotated
+from utils import paginate, get_current_user
 
 
 router = APIRouter()
 
 
 
-@router.get('/user', tags=['Users'], status_code=status.HTTP_200_OK)
-def get_all_users(per_page: int = 10, page: int = 1):
-    users = repositories.db_users.get()
-    users = paginate(users, page, per_page)
-    pgsn = {
-        "current": users['current'],
-        "total": users['total']
-    }
-    lus = ListUserResponse(message="Success", status=str(status.HTTP_200_OK), data=users['items'], pagination=pgsn)
-    return lus
-    
-
-@router.post('/user', tags=['Users'], status_code=status.HTTP_201_CREATED)
-def create_user(user: UserSchema):
-    users = repositories.db_users.add(user.model_dump(exclude_unset=True))
-    lus = ListUserSchema(message="Success", status=str(status.HTTP_201_CREATED), data=users)
-    return lus
+@router.get('/profile', tags=['Profile'], status_code=status.HTTP_200_OK)
+def get_profile(current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
+    user = repositories.db_users.get_user_by_id(str(current_user.id))
+    print(user.__dict__)
+    user_schema = UserAuthSchema(
+        id=user.id, username=user.username, email=user.email,
+        disabled=user.disabled
+    )
+    return MyProfileResponse(
+        message="Success", status=str(status.HTTP_200_OK), data=user_schema
+    )
 
 
-@router.put("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
+@router.put("/profile/{id}", tags=['Profile'], status_code=status.HTTP_200_OK)
 def update_user(id: str, user: UserSchema):
     try:
         users = repositories.db_users.update(id, user.model_dump(exclude_unset=True))
@@ -38,7 +33,7 @@ def update_user(id: str, user: UserSchema):
         return NewError(status="404", msg="invalid user id, user with id {} not found".format(id))
 
 
-@router.delete("/user/{id}", tags=['Users'], status_code=status.HTTP_200_OK)
+@router.delete("/profile/{id}", tags=['Profile'], status_code=status.HTTP_200_OK)
 def delete_user(id: str):
     try:
         users = repositories.db_users.delete(id)

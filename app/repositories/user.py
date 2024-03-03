@@ -7,6 +7,11 @@ class UserRepository:
     def get(self):
         return self.users
     
+    def get_user_by_id(self, user_id: str):
+        for u in self.users:
+            if u.id == user_id:
+                return u
+    
     def add(self, user):
         user_model = User()
         user_model.id = user["id"]

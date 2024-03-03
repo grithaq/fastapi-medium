@@ -1,4 +1,4 @@
-from .base import BaseModel
+from .base import BaseModel, ResponseModel
 from typing import Union
 
 
@@ -22,3 +22,7 @@ class UserAuthSchema(BaseModel):
 
 class UserInDb(UserAuthSchema):
     password: str
+
+
+class MyProfileResponse(ResponseModel):
+    data : UserAuthSchema
