@@ -47,20 +47,3 @@ def login_for_access_token(
     return SignInResponse(
         access_token=access_token, token_type="bearer"
     )
-
-
-@router.get(
-    '/account/me', tags=['Auth'], status_code=status.HTTP_200_OK,
-)
-def get_me(
-    current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
-):
-    return current_user
-
-
-@router.get("/users/me/items/")
-async def read_own_items(
-    current_user: Annotated[UserAuthSchema, Depends(get_current_active_user)]
-):
-    print(f"auth endpoint : {current_user}")
-    return [{"item_id": "Foo", "owner": current_user.username}]
