@@ -14,7 +14,7 @@ class UserRepository:
         user_model.email = user["email"]
         user_model.password = user["password"]
         user_model.disabled = False
-        self.users.append(user)
+        self.users.append(user_model)
         return user_model
     
     def update(self, id: str, user):

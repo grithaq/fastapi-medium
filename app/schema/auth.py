@@ -7,6 +7,17 @@ class SignUpSchema(BaseModel):
     username: str
     email: str
     password: str
+    
 
 class TokenData(BaseModel):
     username: Union[str, None] = None
+
+
+class UserAuthSchema(BaseModel):
+    username: str
+    email: Union[str, None] = None
+    disabled: Union[bool, None] = None
+
+
+class UserInDb(UserAuthSchema):
+    password: str

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, HTTPException, Depends
-from schema import SignUpSchema, SignUpResponse, SignInResponse
-from utils import has_pass, authenticate_user, create_access_token, get_current_user
+from schema import SignUpSchema, SignUpResponse, SignInResponse, UserAuthSchema
+from utils import has_pass, authenticate_user, create_access_token, get_current_user, get_current_active_user
 from fastapi.security import OAuth2PasswordRequestForm
 from core.config import settings
 from datetime import timedelta
@@ -42,7 +42,7 @@ def login_for_access_token(
         )
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTE)
     access_token = create_access_token(
-        data={"sub": user['username']}, expires_delta=access_token_expires
+        data={"sub": user.username}, expires_delta=access_token_expires
     )
     return SignInResponse(
         access_token=access_token, token_type="bearer"
@@ -51,9 +51,16 @@ def login_for_access_token(
 
 @router.get(
     '/account/me', tags=['Auth'], status_code=status.HTTP_200_OK,
-    response_model=SignUpSchema
 )
 def get_me(
-    current_user: Annotated[SignUpSchema, Depends(get_current_user)]
+    current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     return current_user
+
+
+@router.get("/users/me/items/")
+async def read_own_items(
+    current_user: Annotated[UserAuthSchema, Depends(get_current_active_user)]
+):
+    print(f"auth endpoint : {current_user}")
+    return [{"item_id": "Foo", "owner": current_user.username}]

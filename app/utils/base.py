@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from jose import jwt, JWTError
 from datetime import timedelta, timezone, datetime
 from core.config import settings
-from schema import TokenData, SignUpSchema
+from schema import TokenData, SignUpSchema, UserAuthSchema, UserInDb
 
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -31,16 +31,23 @@ def get_password_hash(password):
 
 def get_user(repo, username: str):
     for r in repo:
-        if username == r['username']:
-            return r
+        if username == r.username:
+            user_in_db = UserInDb(
+                id=r.id,
+                username=r.username,
+                email=r.email,
+                password=r.password,
+                disabled=r.disabled
+            )
+            return user_in_db
 
 
 def authenticate_user(repo, username: str, password: str):
     # get user from database
-    user = get_user(repo, username)
+    user = get_user(get_db(), username)
     if not user:
         return False
-    if not verify_password(password, user['password']):
+    if not verify_password(password, user.password):
         return False
     return user
 
@@ -72,7 +79,6 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         token_data = TokenData(username=username)
     except JWTError:
         raise creadential_exception
-    print("INI GET DB", get_db())
     user = get_user(get_db(), username=token_data.username)
     if user is None:
         raise creadential_exception
@@ -80,7 +86,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 
 
 async def get_current_active_user(
-        current_user: Annotated[SignUpSchema, Depends(get_current_user)]
+        current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
