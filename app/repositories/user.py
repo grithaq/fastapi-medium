@@ -24,9 +24,14 @@ class UserRepository:
     
     def update(self, id: str, user):
         for index, usr in enumerate(self.users):
-            if usr['id'] == int(id):
+            if usr.id == str(id):
+                user_model = User()
+                user_model.id = user["id"]
+                user_model.username = user["username"]
+                user_model.email = user["email"]
+                user_model.disabled = user['disabled']
                 self.users[index] = user
-                return self.get()
+                return user_model
         return "User not found"
     
     def delete(self, id: str):
