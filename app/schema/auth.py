@@ -14,6 +14,7 @@ class TokenData(BaseModel):
 
 
 class UserAuthSchema(BaseModel):
+    id: str
     username: str
     email: Union[str, None] = None
     disabled: Union[bool, None] = None

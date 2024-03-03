@@ -20,7 +20,7 @@ def get_categories(page: int, per_page: int, current_user: Annotated[UserAuthSch
     }
     list_category_response = CategoriesResponse(
         message="Success", status=str(status.HTTP_200_OK), data=categories['items'],
-        pagination=pgsn
+        pagination=pgsn, user_id=current_user.id
     )
     return list_category_response
 
@@ -28,12 +28,14 @@ def get_categories(page: int, per_page: int, current_user: Annotated[UserAuthSch
 @router.post(
         "/category", tags=["Categories"], status_code=status.HTTP_201_CREATED
 )
-def add_category(category: CategoryRequestSchema):
-    categories = db_categories.add(category.model_dump(exclude_unset=True))
+def add_category(category: CategoryRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
+    categories = db_categories.add(current_user.id,category.model_dump(exclude_unset=True))
     list_category_response = ListCategoryResponse(
-        message="Success", status=str(status.HTTP_201_CREATED), data=categories
+        message="Success", status=str(status.HTTP_201_CREATED), data=categories, user_id=current_user.id
     )
     return list_category_response
+    # print(category)
+    # print(current_user)
 
 
 @router.put(

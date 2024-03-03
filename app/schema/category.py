@@ -13,7 +13,7 @@ class CategoryRequestSchema(BaseModel):
 
 
 class ListCategoryResponse(ResponseModel):
-    pass
+    user_id : int
 
 
 class CreateCategoryResponse(ResponseModel):
