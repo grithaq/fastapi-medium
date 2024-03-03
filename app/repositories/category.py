@@ -7,17 +7,19 @@ class CategoryRepository():
     def get(self):
         return self.categories
     
-    def add(self, category):
+    def add(self,user_id, category):
         category_entity = Category()
         category_entity.id = category["id"]
         category_entity.name = category["name"]
+        category_entity.user_id = user_id
         self.categories.append(category)
         return self.categories
     
-    def update(self, id: str, category):
+    def update(self, user_id: int, id: str, category):
         category_entity = Category()
         category_entity.id = category["id"]
         category_entity.name = category["name"]
+        category_entity.user_id = user_id
         for index, cat in enumerate(self.categories):
             if cat['id'] == int(id):
                 self.categories[index] = category

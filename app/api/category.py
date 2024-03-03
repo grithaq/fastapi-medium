@@ -20,7 +20,7 @@ def get_categories(page: int, per_page: int, current_user: Annotated[UserAuthSch
     }
     list_category_response = CategoriesResponse(
         message="Success", status=str(status.HTTP_200_OK), data=categories['items'],
-        pagination=pgsn
+        pagination=pgsn, user_id=current_user.id
     )
     return list_category_response
 
@@ -28,23 +28,26 @@ def get_categories(page: int, per_page: int, current_user: Annotated[UserAuthSch
 @router.post(
         "/category", tags=["Categories"], status_code=status.HTTP_201_CREATED
 )
-def add_category(category: CategoryRequestSchema):
-    categories = db_categories.add(category.model_dump(exclude_unset=True))
+def add_category(category: CategoryRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
+    categories = db_categories.add(current_user.id,category.model_dump(exclude_unset=True))
     list_category_response = ListCategoryResponse(
-        message="Success", status=str(status.HTTP_201_CREATED), data=categories
+        message="Success", status=str(status.HTTP_201_CREATED), data=categories, user_id=current_user.id
     )
     return list_category_response
-
 
 @router.put(
         "/category/{id}", tags=["Categories"], status_code=status.HTTP_200_OK
 )
-def update_category(id: str, category: CategorySchema):
+def update_category(
+    id: str, category: CategorySchema,
+    current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+):
     categories = db_categories.update(
-        id, category.model_dump(exclude_unset=True)
+        int(current_user.id), id, category.model_dump(exclude_unset=True)
     )
+    print(categories)
     list_category_response = ListCategoryResponse(
-        message="Success", status=str(status.HTTP_200_OK), data=categories
+        message="Success", status=str(status.HTTP_200_OK), data=categories, user_id=current_user.id
     )
     return list_category_response
 
@@ -52,17 +55,15 @@ def update_category(id: str, category: CategorySchema):
 @router.delete(
         "/category/{id}", tags=["Categories"], status_code=status.HTTP_404_NOT_FOUND
 )
-def delete_category(id: str):
-    print("DELETE")
+def delete_category(id: str, curren_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
     category = db_categories.delete(id)
-    print(category)
     try:
         list_category_response = ListCategoryResponse(
-            message="Success", status=str(status.HTTP_200_OK), data=category
+            message="Success", status=str(status.HTTP_200_OK), data=category, user_id=curren_user.id
         )
         return list_category_response
     except Exception:
         list_category_response = ListCategoryResponse(
-            message=category, status=str(status.HTTP_404_NOT_FOUND), data=[]
+            message=category, status=str(status.HTTP_404_NOT_FOUND), data=[], user_id=curren_user.id
         )
         return list_category_response
