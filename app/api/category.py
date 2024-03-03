@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get(
         "/category", tags=["Categories"], status_code=status.HTTP_200_OK
 )
-def get_categories(page: int, per_page: int, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
+def get_categories(page: int = 1, per_page: int = 5, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
     categories = db_categories.get()
     categories = paginate(categories, page, per_page)
     pgsn = {
@@ -34,19 +34,20 @@ def add_category(category: CategoryRequestSchema, current_user: Annotated[UserAu
         message="Success", status=str(status.HTTP_201_CREATED), data=categories, user_id=current_user.id
     )
     return list_category_response
-    # print(category)
-    # print(current_user)
-
 
 @router.put(
         "/category/{id}", tags=["Categories"], status_code=status.HTTP_200_OK
 )
-def update_category(id: str, category: CategorySchema):
+def update_category(
+    id: str, category: CategorySchema,
+    current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+):
     categories = db_categories.update(
-        id, category.model_dump(exclude_unset=True)
+        int(current_user.id), id, category.model_dump(exclude_unset=True)
     )
+    print(categories)
     list_category_response = ListCategoryResponse(
-        message="Success", status=str(status.HTTP_200_OK), data=categories
+        message="Success", status=str(status.HTTP_200_OK), data=categories, user_id=current_user.id
     )
     return list_category_response
 
