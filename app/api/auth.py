@@ -51,10 +51,9 @@ def login_for_access_token(
 
 @router.get(
     '/account/me', tags=['Auth'], status_code=status.HTTP_200_OK,
-    response_model=SignUpSchema
 )
 def get_me(
-    current_user: Annotated[SignUpSchema, Depends(get_current_user)]
+    current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     return current_user
 
