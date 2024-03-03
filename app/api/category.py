@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get(
         "/category", tags=["Categories"], status_code=status.HTTP_200_OK
 )
-def get_categories(page: int = 1, per_page: int = 5, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
+def get_categories(page: int, per_page: int, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
     categories = db_categories.get()
     categories = paginate(categories, page, per_page)
     pgsn = {
@@ -55,17 +55,15 @@ def update_category(
 @router.delete(
         "/category/{id}", tags=["Categories"], status_code=status.HTTP_404_NOT_FOUND
 )
-def delete_category(id: str):
-    print("DELETE")
+def delete_category(id: str, curren_user: Annotated[UserAuthSchema, Depends(get_current_user)]):
     category = db_categories.delete(id)
-    print(category)
     try:
         list_category_response = ListCategoryResponse(
-            message="Success", status=str(status.HTTP_200_OK), data=category
+            message="Success", status=str(status.HTTP_200_OK), data=category, user_id=curren_user.id
         )
         return list_category_response
     except Exception:
         list_category_response = ListCategoryResponse(
-            message=category, status=str(status.HTTP_404_NOT_FOUND), data=[]
+            message=category, status=str(status.HTTP_404_NOT_FOUND), data=[], user_id=curren_user.id
         )
         return list_category_response
