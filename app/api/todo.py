@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get(
-        "/todo", status_code=status.HTTP_200_OK, tags=['TODO'],
+        "/todo", status_code=status.HTTP_200_OK, tags=['TODO']
 )
 def get_todos(
     page: int, per_page: int, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
@@ -44,7 +44,7 @@ def get_todos(
         "/todo", status_code=status.HTTP_201_CREATED, tags=['TODO']
 )
 def create_todo(
-    todo: TodoRequestSchema
+    todo: TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
     todos = repositories.todo.db_todo.add(1, todo_obj)
@@ -63,7 +63,7 @@ def update_todo(
     id: str, todo:TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
-    todos = repositories.todo.db_todo.update(int(id), current_user.id, todo_obj)
+    todos = repositories.todo.db_todo.update(int(id), 1, todo_obj)
     todo_schema = TodoRequestSchema(
         id=todos.id, title=todos.title, description=todos.description,
         categories=todos.categories
@@ -82,8 +82,7 @@ def delete_todo(
     id: str, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo = repositories.todo.db_todo.delete(id)
-    print(todo)
-    if todo != None:
+    if todo != "Todo not found":
         data = TodoResponse(
             message="Success", status=str(status.HTTP_204_NO_CONTENT)
         )

@@ -30,11 +30,10 @@ class TodoRepository():
                 return td
     
     def delete(self, id):
-        for index, td in enumerate(self.todos):
+        for td in self.todos:
             if td.id == int(id):
-                del self.todos[index]
-                return self.get()
-            return "Todo not found"
+                self.todos.remove(td)
+                return td
 
 
 db_todo = TodoRepository()
