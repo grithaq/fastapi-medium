@@ -1,5 +1,4 @@
-from .base import BaseModel, ResponseModel, PaginationResponseModel
-from .user import UserSchema
+from .base import BaseModel, PaginationResponseModel, ResponseModel
 
 
 class CategorySchema(BaseModel):
@@ -13,7 +12,7 @@ class CategoryRequestSchema(BaseModel):
 
 
 class ListCategoryResponse(ResponseModel):
-    user_id : int
+    user_id: int
 
 
 class CreateCategoryResponse(ResponseModel):

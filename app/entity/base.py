@@ -1,3 +1,3 @@
-from typing import List, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")

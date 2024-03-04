@@ -1,5 +1,6 @@
-from .base import BaseModel, ResponseModel
 from typing import Union
+
+from .base import BaseModel, ResponseModel
 
 
 class SignUpSchema(BaseModel):
@@ -7,7 +8,7 @@ class SignUpSchema(BaseModel):
     username: str
     email: str
     password: str
-    
+
 
 class TokenData(BaseModel):
     username: Union[str, None] = None
@@ -25,4 +26,4 @@ class UserInDb(UserAuthSchema):
 
 
 class MyProfileResponse(ResponseModel):
-    data : UserAuthSchema
+    data: UserAuthSchema

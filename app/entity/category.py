@@ -1,6 +1,7 @@
-from .user import User
-from .todo import Todo
 from typing import List
+
+from .todo import Todo
+from .user import User
 
 
 class Category:

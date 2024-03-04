@@ -1,12 +1,12 @@
-from fastapi import FastAPI, APIRouter
-from api import todo, user, category, auth
+from api import auth, category, todo, user
 from core.config import settings
+from fastapi import APIRouter, FastAPI
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description=settings.DESCRIPTION,
     version=settings.PROJECT_VERSION,
-    debug=settings.DEBUG
+    debug=settings.DEBUG,
 )
 
 router = APIRouter()

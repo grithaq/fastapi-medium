@@ -1,4 +1,4 @@
-from .base import BaseModel, ResponseModel, PaginationResponseModel
+from .base import BaseModel, PaginationResponseModel, ResponseModel
 
 
 class UserSchema(BaseModel):
@@ -29,4 +29,3 @@ class SignUpResponse(BaseModel):
 class SignInResponse(BaseModel):
     access_token: str
     token_type: str
-    
