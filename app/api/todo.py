@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, Depends
-from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse, UserAuthSchema
+from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse, UserAuthSchema, ResponseModel
 import repositories
 from core.error import NewError
 from utils import paginate, get_current_user
@@ -44,10 +44,10 @@ def get_todos(
         "/todo", status_code=status.HTTP_201_CREATED, tags=['TODO']
 )
 def create_todo(
-    todo: TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+    todo: TodoRequestSchema
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
-    todos = repositories.todo.db_todo.add(current_user.id, todo_obj)
+    todos = repositories.todo.db_todo.add(1, todo_obj)
     todos = [tr.__dict__ for tr in todos]
     list_todo_response = ListTodoResponse(
         message="Success", status=str(status.HTTP_201_CREATED),
@@ -63,13 +63,16 @@ def update_todo(
     id: str, todo:TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
-    todos = repositories.todo.db_todo.update(id, todo_obj)
-    todos = [tr.__dict__ for tr in todos]
-    list_todo_response = ListTodoResponse(
-        message="Success", status=str(status.HTTP_200_OK),
-        todos=todos
+    todos = repositories.todo.db_todo.update(int(id), current_user.id, todo_obj)
+    todo_schema = TodoRequestSchema(
+        id=todos.id, title=todos.title, description=todos.description,
+        categories=todos.categories
     )
-    return list_todo_response
+    todo_response = ResponseModel(
+        message="Success", status=str(status.HTTP_200_OK),
+        data=[todo_schema]
+    )
+    return todo_response
     
 
 @router.delete(

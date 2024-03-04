@@ -17,7 +17,7 @@ class TodoRepository():
         self.todos.append(t)
         return self.todos
     
-    def update(self, id, todo):
+    def update(self, id, user_id, todo):
         for index, td in enumerate(self.todos):
             if td.id == int(id):
                 t = Todo()
@@ -25,10 +25,9 @@ class TodoRepository():
                 t.title = todo['title']
                 t.description = todo['description']
                 t.categories = todo['categories']
-                t.user_id = todo['user_id']
+                t.user_id = user_id
                 self.todos[index] = t
-                return self.get()
-        return self.todos
+                return td
     
     def delete(self, id):
         for index, td in enumerate(self.todos):
