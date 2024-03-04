@@ -1,17 +1,20 @@
-from fastapi import APIRouter, status
-from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse
+from fastapi import APIRouter, status, Depends
+from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse, UserAuthSchema
 import repositories
 from core.error import NewError
-from utils import paginate
+from utils import paginate, get_current_user
+from typing import Annotated
 
 
 router = APIRouter()
 
 
 @router.get(
-        "/todo", status_code=status.HTTP_200_OK, tags=['TODO']
+        "/todo", status_code=status.HTTP_200_OK, tags=['TODO'],
 )
-def get_todos(page: int = 1, per_page: int = 10):
+def get_todos(
+    page: int, per_page: int, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+):
     todos = repositories.todo.db_todo.get()
 
     list_todo = []
@@ -40,8 +43,9 @@ def get_todos(page: int = 1, per_page: int = 10):
 @router.post(
         "/todo", status_code=status.HTTP_201_CREATED, tags=['TODO']
 )
-def create_todo(todo: TodoRequestSchema):
-    print(todo)
+def create_todo(
+    todo: TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+):
     todo_obj = todo.model_dump(exclude_unset=True)
     print(f"todo api obj {todo_obj}")
     todos = repositories.todo.db_todo.add(todo_obj)
@@ -56,7 +60,9 @@ def create_todo(todo: TodoRequestSchema):
 @router.put(
     "/todo/{id}", status_code=status.HTTP_200_OK, tags=['TODO']
 )
-def update_todo(id: str, todo:TodoRequestSchema):
+def update_todo(
+    id: str, todo:TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+):
     todo_obj = todo.model_dump(exclude_unset=True)
     todos = repositories.todo.db_todo.update(id, todo_obj)
     todos = [tr.__dict__ for tr in todos]
@@ -70,7 +76,9 @@ def update_todo(id: str, todo:TodoRequestSchema):
 @router.delete(
     "/todo/{id}", tags=['TODO']
 )
-def delete_todo(id: str):
+def delete_todo(
+    id: str, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+):
     todo = repositories.todo.db_todo.delete(id)
     print(todo)
     if todo != None:
