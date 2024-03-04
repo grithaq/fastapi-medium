@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, Depends
-from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse, UserAuthSchema, ResponseModel
+from schema import ListTodoResponse, TodoRequestSchema, GetTodosResponse, TodoResponse, UserAuthSchema, ResponseModel, TodoAddResponse
 import repositories
 from core.error import NewError
 from utils import paginate, get_current_user
@@ -47,11 +47,14 @@ def create_todo(
     todo: TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
-    todos = repositories.todo.db_todo.add(1, todo_obj)
-    todos = [tr.__dict__ for tr in todos]
-    list_todo_response = ListTodoResponse(
+    todo = repositories.todo.db_todo.add(current_user.id, todo_obj)
+    todo_schema = TodoRequestSchema(
+        id=todo.id, title=todo.title, description=todo.description,
+        categories=todo.categories
+    )
+    list_todo_response = TodoAddResponse(
         message="Success", status=str(status.HTTP_201_CREATED),
-        todos=todos
+        todo=todo_schema
     )
     return list_todo_response
 
@@ -63,7 +66,7 @@ def update_todo(
     id: str, todo:TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
-    todos = repositories.todo.db_todo.update(int(id), 1, todo_obj)
+    todos = repositories.todo.db_todo.update(int(id), current_user.id, todo_obj)
     todo_schema = TodoRequestSchema(
         id=todos.id, title=todos.title, description=todos.description,
         categories=todos.categories

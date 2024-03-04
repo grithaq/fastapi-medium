@@ -34,3 +34,6 @@ class GetTodosResponse(BaseModel):
 class TodoResponse(BaseModel):
     message: str
     status: str
+
+class TodoAddResponse(TodoResponse):
+    todo: TodoRequestSchema
