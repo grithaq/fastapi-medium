@@ -1,4 +1,6 @@
-from .base import List, T
+from typing import List
+
+from .base import T
 from .user import User
 
 
