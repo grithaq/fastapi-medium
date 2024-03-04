@@ -47,8 +47,7 @@ def create_todo(
     todo: TodoRequestSchema, current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     todo_obj = todo.model_dump(exclude_unset=True)
-    print(f"todo api obj {todo_obj}")
-    todos = repositories.todo.db_todo.add(todo_obj)
+    todos = repositories.todo.db_todo.add(current_user.id, todo_obj)
     todos = [tr.__dict__ for tr in todos]
     list_todo_response = ListTodoResponse(
         message="Success", status=str(status.HTTP_201_CREATED),

@@ -16,7 +16,6 @@ class TodoRequestSchema(BaseModel):
     title: str
     description: str
     categories: List[TodoCategorySchema]
-    user_id: int
 
 
 class ListTodoResponse(BaseModel):

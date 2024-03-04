@@ -7,13 +7,13 @@ class TodoRepository():
     def get(self):
         return self.todos
     
-    def add(self, todo):
+    def add(self, user_id, todo):
         t = Todo()
         t.id = todo['id']
         t.title = todo['title']
         t.description = todo['description']
         t.categories = todo['categories']
-        t.user_id = todo['user_id']
+        t.user_id = user_id
         self.todos.append(t)
         return self.todos
     
