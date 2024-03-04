@@ -1,4 +1,4 @@
-from .base import BaseModel, List, T, PaginationResponseModel
+from .base import BaseModel, List, PaginationResponseModel, T
 from .category import TodoCategorySchema
 from .user import UserSchema
 
@@ -23,17 +23,19 @@ class ListTodoResponse(BaseModel):
     status: str
     todos: List[T]
 
+
 class GetTodosResponse(BaseModel):
     message: str
     status: str
     user_id: int
     todos: List[T]
     pagination: PaginationResponseModel
-    
+
 
 class TodoResponse(BaseModel):
     message: str
     status: str
+
 
 class TodoAddResponse(TodoResponse):
     todo: TodoRequestSchema

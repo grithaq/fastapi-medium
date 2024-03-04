@@ -1,7 +1,8 @@
-from pydantic import BaseModel
 from typing import List, TypeVar
 
-T = TypeVar('T')
+from pydantic import BaseModel
+
+T = TypeVar("T")
 
 
 class ResponseModel(BaseModel):

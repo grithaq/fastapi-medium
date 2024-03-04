@@ -1,19 +1,20 @@
+from datetime import datetime, timedelta, timezone
 from typing import Annotated, Union
+
+from core.config import settings
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
 from passlib.context import CryptContext
-from jose import jwt, JWTError
-from datetime import timedelta, timezone, datetime
-from core.config import settings
-from schema import TokenData, SignUpSchema, UserAuthSchema, UserInDb
+from schema import TokenData, UserAuthSchema, UserInDb
 
-
-pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/sign_in")
 
 
 def get_db():
     from repositories import db_users
+
     return db_users.get()
 
 
@@ -37,7 +38,7 @@ def get_user(repo, username: str):
                 username=r.username,
                 email=r.email,
                 password=r.password,
-                disabled=r.disabled
+                disabled=r.disabled,
             )
             return user_in_db
 
@@ -58,10 +59,10 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
         expire = datetime.now(timezone.utc) + expires_delta
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
-    to_encode.update(
-        {"exp": expire}
+    to_encode.update({"exp": expire})
+    encode_jwt = jwt.encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
-    encode_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encode_jwt
 
 
@@ -69,10 +70,12 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     creadential_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate",
-        headers={'WWW-Authenticate': "Barrer"}
+        headers={"WWW-Authenticate": "Barrer"},
     )
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         username: str = payload.get("sub")
         if username is None:
             raise creadential_exception
@@ -86,22 +89,17 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 
 
 async def get_current_active_user(
-        current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
+    current_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
-    
+
 
 def paginate(items, page, per_page):
     start = (page - 1) * per_page
     end = start + per_page
     current = page
     total = len(items)
-    data = {
-        "current": current,
-        "total": total,
-        "items": items[start:end]
-    }
+    data = {"current": current, "total": total, "items": items[start:end]}
     return data
-
