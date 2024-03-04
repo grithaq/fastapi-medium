@@ -3,7 +3,7 @@ from .base import BaseModel, ResponseModel, PaginationResponseModel
 
 class UserSchema(BaseModel):
     id: int
-    name: str
+    username: str
 
 
 class ListUserSchema(ResponseModel):
