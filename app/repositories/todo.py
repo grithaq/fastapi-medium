@@ -15,7 +15,7 @@ class TodoRepository():
         t.categories = todo['categories']
         t.user_id = user_id
         self.todos.append(t)
-        return self.todos
+        return t
     
     def update(self, id, user_id, todo):
         for index, td in enumerate(self.todos):
