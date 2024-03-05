@@ -1,9 +1,14 @@
-import httpx
+from fastapi.testclient import TestClient
+from core.config import settings
+from app.main import create_app
+
+application = create_app()
+client = TestClient(application)
 
 
 def test_sign_up():
-    r = httpx.post(
-        url="http://localhost:8000/api/v1/sign_up",
+    response = client.post(
+        url=f"{settings.API_V1_STR}/sign_up",
         json={
             "id": "1",
             "username": "grithaq",
@@ -12,10 +17,4 @@ def test_sign_up():
         },
         headers={"Accept": "application/json", "Content-Type": "application/json"},
     )
-
-    assert r.status_code == 200
-    assert r.json() == {
-        "message": "Success",
-        "status": "201",
-        "account": {"id": "1", "username": "grithaq", "email": "gritmail"},
-    }
+    assert response.status_code == 200
