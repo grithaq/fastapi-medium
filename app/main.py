@@ -1,7 +1,6 @@
+from api import auth, category, todo, user
 from core.config import settings
 from fastapi import FastAPI
-
-from api import auth, category, todo, user
 
 
 def create_app():
