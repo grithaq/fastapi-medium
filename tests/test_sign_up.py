@@ -1,12 +1,8 @@
-from fastapi.testclient import TestClient
 from core.config import settings
-from app.main import create_app
-
-application = create_app()
-client = TestClient(application)
+from fastapi.testclient import TestClient
 
 
-def test_sign_up():
+def test_sign_up(client: TestClient):
     response = client.post(
         url=f"{settings.API_V1_STR}/sign_up",
         json={
