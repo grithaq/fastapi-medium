@@ -24,7 +24,11 @@ def test_createa_category(client: TestClient, get_token):
     category_data = {"id": 1, "name": "Learning"}
     response = client.post(
         url=f"{settings.API_V1_STR}/category",
-        headers={"accept": "application/json", "Authorization": get_token, "Content-Type": "application/json"},
+        headers={
+            "accept": "application/json",
+            "Authorization": get_token,
+            "Content-Type": "application/json",
+        },
         json=category_data,
     )
     assert response.status_code == 201
@@ -40,7 +44,11 @@ def test_update_category(client: TestClient, get_token):
     category_data = {"id": 1, "name": "Shoping"}
     response = client.put(
         url=f"{settings.API_V1_STR}/category/1",
-        headers={"accept": "application/json", "Authorization": get_token, "Content-Type": "application/json"},
+        headers={
+            "accept": "application/json",
+            "Authorization": get_token,
+            "Content-Type": "application/json",
+        },
         json=category_data,
     )
     assert response.status_code == 200
@@ -55,7 +63,11 @@ def test_update_category(client: TestClient, get_token):
 def test_delete_category(client: TestClient, get_token):
     response = client.delete(
         url=f"{settings.API_V1_STR}/category/1",
-        headers={"accept": "application/json", "Authorization": get_token, "Content-Type": "application/json"},
+        headers={
+            "accept": "application/json",
+            "Authorization": get_token,
+            "Content-Type": "application/json",
+        },
     )
     assert response.status_code == 404
     assert response.json() == {
