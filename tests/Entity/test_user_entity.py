@@ -9,3 +9,7 @@ def test_entity_user():
     user.password = "asdf"
     user.disabled = False
     assert user
+    assert user.username == "jhon"
+    assert user.email == "jhonmail"
+    assert user.password == "asdf"
+    assert user.disabled == False
