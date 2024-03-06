@@ -3,7 +3,7 @@ from typing import Annotated
 import repositories
 from core.error import NewError
 from fastapi import APIRouter, Depends, status
-from schema import ListUserSchema, MyProfileResponse, UserAuthSchema
+from schema import MyProfileResponse, UserAuthSchema
 from utils import get_current_user
 
 router = APIRouter()
@@ -39,20 +39,6 @@ def update_profile(
         return MyProfileResponse(
             message="Success", status=str(status.HTTP_200_OK), data=user_schema
         )
-    except NewError:
-        return NewError(
-            status="404", msg="invalid user id, user with id {} not found".format(id)
-        )
-
-
-@router.delete("/profile/{id}", tags=["Profile"], status_code=status.HTTP_200_OK)
-def delete_profile(id: str):
-    try:
-        users = repositories.db_users.delete(id)
-        data = ListUserSchema(
-            message="Success", status=str(status.HTTP_204_NO_CONTENT), data=users
-        )
-        return data
     except NewError:
         return NewError(
             status="404", msg="invalid user id, user with id {} not found".format(id)
