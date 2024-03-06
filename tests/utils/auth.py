@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+
 from app.core.config import settings
 
 
@@ -12,12 +13,9 @@ def sign_up_user(client: TestClient):
     response = client.post(
         url=f"{settings.API_V1_STR}/sign_up",
         json=new_user,
-        headers={
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
+        headers={"accept": "application/json", "Content-Type": "application/json"},
     )
-    
+
 
 def get_user_token(client: TestClient):
     sign_up_user(client)
@@ -39,5 +37,3 @@ def get_user_token(client: TestClient):
     response_data = response.json()
     token = f"Bearer {response_data['access_token']}"
     return token
-
-
