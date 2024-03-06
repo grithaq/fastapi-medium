@@ -1,22 +1,26 @@
-from core.config import settings
 from fastapi.testclient import TestClient
+from app.core.config import settings
 
 
-def test_sign_up(client: TestClient):
+def sign_up_user(client: TestClient):
+    new_user = {
+        "id": "1",
+        "username": "grithaq",
+        "email": "grimail",
+        "password": "asdf",
+    }
     response = client.post(
         url=f"{settings.API_V1_STR}/sign_up",
-        json={
-            "id": "1",
-            "username": "grithaq",
-            "email": "gritmail",
-            "password": "asdf",
-        },
-        headers={"Accept": "application/json", "Content-Type": "application/json"},
+        json=new_user,
+        headers={
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
     )
-    assert response.status_code == 200
+    
 
-
-def test_login_for_token(client: TestClient):
+def get_user_token(client: TestClient):
+    sign_up_user(client)
     response = client.post(
         "http://localhost:8000/api/v1/sign_in",
         headers={
@@ -32,4 +36,8 @@ def test_login_for_token(client: TestClient):
             "client_secret": "",
         },
     )
-    assert response.status_code == 200
+    response_data = response.json()
+    token = f"Bearer {response_data['access_token']}"
+    return token
+
+
