@@ -15,7 +15,7 @@ def get_categories(
     per_page: int,
     current_user: Annotated[UserAuthSchema, Depends(get_current_user)],
 ):
-    categories = db_categories.get()
+    categories = db_categories.get(int(current_user.id))
     categories = paginate(categories, page, per_page)
     pgsn = {"current": categories["current"], "total": categories["total"]}
     list_category_response = CategoriesResponse(
@@ -34,7 +34,7 @@ def add_category(
     current_user: Annotated[UserAuthSchema, Depends(get_current_user)],
 ):
     categories = db_categories.add(
-        current_user.id, category.model_dump(exclude_unset=True)
+        int(current_user.id), category.model_dump(exclude_unset=True)
     )
     list_category_response = ListCategoryResponse(
         message="Success",

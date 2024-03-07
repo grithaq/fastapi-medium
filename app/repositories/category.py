@@ -4,8 +4,8 @@ from entity import Category
 class CategoryRepository:
     categories = []
 
-    def get(self, User_id):
-        return [category for category in self.categories if category.user_id == User_id]
+    def get(self, user_id):
+        return [c for c in self.categories if c.user_id == user_id]
 
     def add(self, user_id, category):
         category_entity = Category()
@@ -26,7 +26,7 @@ class CategoryRepository:
                 return self.get(user_id)
         return "Category not found"
 
-    def delete(self, id: str ,user_id: int):
+    def delete(self, id: str, user_id: int):
         for index, category in enumerate(self.categories):
             if category.id == int(id):
                 del self.categories[index]
