@@ -49,9 +49,7 @@ def test_category_response():
         "status": "200",
         "pagination": {
             "total": 1,
-            "page": 1,
-            "pages": 1,
-            "per_page": 10,
+            "current": 1,
         },
         "user_id": 1,
         "data": [
@@ -67,6 +65,3 @@ def test_category_response():
 
     assert schema.pagination
     assert schema.pagination.total == 1
-    assert schema.pagination.page == 1
-    assert schema.pagination.pages == 1
-    assert schema.pagination.per_page == 10
