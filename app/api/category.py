@@ -70,7 +70,7 @@ def update_category(
 def delete_category(
     id: str, curren_user: Annotated[UserAuthSchema, Depends(get_current_user)]
 ):
-    category = db_categories.delete(id)
+    category = db_categories.delete(id, int(curren_user.id))
     try:
         list_category_response = ListCategoryResponse(
             message="Success",
