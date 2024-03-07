@@ -24,7 +24,7 @@ def test_update_profile(client: TestClient, get_token):
             "Authorization": get_token,
             "Content-Type": "application/json",
         },
-        data=js.dumps(
+        json=js.dumps(
             {"id": "1", "username": "jhon", "email": "jhonmail", "disabled": True}
         ),
     )
