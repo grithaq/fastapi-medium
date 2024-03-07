@@ -15,10 +15,6 @@ class ListCategoryResponse(ResponseModel):
     user_id: int
 
 
-class CreateCategoryResponse(ResponseModel):
-    pass
-
-
 class TodoCategorySchema(BaseModel):
     id: int
     name: str
