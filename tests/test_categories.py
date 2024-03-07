@@ -61,19 +61,19 @@ def test_update_category(client: TestClient, get_token):
     }
 
 
-# def test_delete_category(client: TestClient, get_token):
-#     response = client.delete(
-#         url=f"{settings.API_V1_STR}/category/1",
-#         headers={
-#             "accept": "application/json",
-#             "Authorization": get_token,
-#             "Content-Type": "application/json",
-#         },
-#     )
-#     assert response.status_code == 404
-#     assert response.json() == {
-#         "message": "Success",
-#         "status": "200",
-#         "data": [],
-#         "user_id": 1,
-#     }
+def test_delete_category(client: TestClient, get_token):
+    response = client.delete(
+        url=f"{settings.API_V1_STR}/category/1",
+        headers={
+            "accept": "application/json",
+            "Authorization": get_token,
+            "Content-Type": "application/json",
+        },
+    )
+    assert response.status_code == 404
+    assert response.json() == {
+        "message": "Success",
+        "status": "200",
+        "data": [],
+        "user_id": 1,
+    }
