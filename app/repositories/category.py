@@ -5,7 +5,7 @@ class CategoryRepository:
     categories = []
 
     def get(self, user_id):
-        return [c for c in self.categories if c.user_id == user_id]
+        return [c.__dict__ for c in self.categories if c.user_id == user_id]
 
     def add(self, user_id, category):
         category_entity = Category()
@@ -13,7 +13,7 @@ class CategoryRepository:
         category_entity.name = category["name"]
         category_entity.user_id = user_id
         self.categories.append(category_entity)
-        return self.categories
+        return self.get(user_id)
 
     def update(self, user_id: int, id: str, category):
         category_entity = Category()

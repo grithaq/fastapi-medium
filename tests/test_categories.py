@@ -20,24 +20,24 @@ def test_get_category(client: TestClient, get_token):
     }
 
 
-# def test_createa_category(client: TestClient, get_token):
-#     category_data = {"id": 1, "name": "Learning"}
-#     response = client.post(
-#         url=f"{settings.API_V1_STR}/category",
-#         headers={
-#             "accept": "application/json",
-#             "Authorization": get_token,
-#             "Content-Type": "application/json",
-#         },
-#         json=category_data,
-#     )
-#     assert response.status_code == 201
-#     assert response.json() == {
-#         "message": "Success",
-#         "status": "201",
-#         "data": [{"id": 1, "name": "Learning"}],
-#         "user_id": 1,
-#     }
+def test_createa_category(client: TestClient, get_token):
+    category_data = {"id": 1, "name": "Learning"}
+    response = client.post(
+        url=f"{settings.API_V1_STR}/category",
+        headers={
+            "accept": "application/json",
+            "Authorization": get_token,
+            "Content-Type": "application/json",
+        },
+        json=category_data,
+    )
+    assert response.status_code == 201
+    assert response.json() == {
+        "message": "Success",
+        "status": "201",
+        "data": [{"id": 1, "name": "Learning", "user_id": 1}],
+        "user_id": 1,
+    }
 
 
 # def test_update_category(client: TestClient, get_token):
